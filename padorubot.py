@@ -13,6 +13,7 @@ async def on_ready():
 @bot.event
 async def on_message(message):
     print(message.content)
+    # SauceNao functionality
     if message.content.startswith("^source"):
         try:
             attachmentDict = message.attachments[0]
@@ -20,7 +21,9 @@ async def on_message(message):
             if sauce_list["found"]:
                 similarity = sauce_list["similarity"]
                 thumbnail = sauce_list["thumbnail"]
-                embed = discord.Embed(title="Sagiri Search", color=0x00ff00)
+                embed = discord.Embed(title="Saber Search",
+                                      description=f"I'm {similarity}% sure it "
+                                      "is this. Umu!", color=0xff0000)
                 embed.set_image(url=thumbnail)
                 embed.set_thumbnail(
                     url="https://padoru.moe/data/padoru.png")
@@ -28,20 +31,23 @@ async def on_message(message):
                 embed.add_field(name="Artist", value=sauce_list["name"])
                 embed.add_field(name="ID", value=sauce_list["id"])
                 embed.add_field(name="URL", value=sauce_list["url"])
-                await bot.send_message(message.channel,
-                                       content=f"I'm {similarity}% sure it's:",
-                                       embed=embed)
+                await bot.send_message(message.channel, embed=embed)
             else:
-                await bot.send_message(message.channel, ":/ couldn't find it")
-        except Exception:
-            await bot.send_message(message.channel,
-                                   "I'm shittily coded atm, maybe you forgot "
-                                   + "to attach a file, maybe I reached my "
-                                   + "api limit, who knows")
+                embed = discord.Embed(title="Saber Search",
+                                      description="Khh-- I can't find it",
+                                      color=0xff0000)
+                embed.set_thumbnail(
+                    url="https://padoru.moe/data/padoru.png")
+                await bot.send_message(message.channel, embed=embed)
+        except Exception as e:
+            print(e)
+            embed = discord.Embed(title="Saber Search",
+                                  description="Guh I don't like that, "
+                                  "did you even upload an image?",
+                                  color=0xff0000)
+            embed.set_thumbnail(
+                url="https://padoru.moe/data/padoru.png")
+            await bot.send_message(message.channel, embed=embed)
 
-
-@bot.command()
-async def source(message):
-    await bot.say(message.content)
 
 bot.run(DISCORD_TOKEN)
