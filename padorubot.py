@@ -27,8 +27,6 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
-    print(str(message.channel.name) + ":" + str(message.author) + ":"
-          + str(message.content))
     if message.content.startswith("^help"):
         embed = discord.Embed(title="Commands",
                               description=f"Here are some commands. Umu!",
