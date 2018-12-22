@@ -6,6 +6,7 @@ ADD revsearch.py /
 ADD dubstosubs.py /
 ADD functions.py /
 ADD config.py /
+ADD musumecollection.py /
 RUN pip install discord.py
 RUN pip install requests
 RUN pip install yandex-translater

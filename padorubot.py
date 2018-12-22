@@ -3,14 +3,10 @@ from discord.ext import commands
 import revsearch
 # import dubstosubs
 from config import DISCORD_TOKEN
-from config import PADORU_ICON
-from config import PADORU_COLOUR
-# TODO: Add heads and tails to config file
-# TODO: Create Padoru heads and tails png
-from config import PADORU_HEADS
-from config import PADORU_TAILS
+import musumecollection
 # import re
 import functions
+
 bot = commands.Bot(command_prefix='?')
 
 
@@ -26,12 +22,23 @@ async def on_ready():
 
 
 @bot.event
+async def on_member_join(member):
+    channel = member.server.get_channel("501707743472779266")
+    # await bot.send_message(channel, "Hello"
+    embed = discord.Embed(title="Welcome!", description="Come on and slam",
+                          color=musumecollection.PADORU_COLOUR)
+    embed.set_thumbnail(url=musumecollection.PADORU_ICON)
+    embed.set_image(url=musumecollection.PADORU_WELCOME)
+    await bot.send_message(channel, embed=embed)
+
+
+@bot.event
 async def on_message(message):
     if message.content.startswith("^help"):
         embed = discord.Embed(title="Commands",
                               description=f"Here are some commands. Umu!",
-                              color=PADORU_COLOUR)
-        embed.set_thumbnail(url=PADORU_ICON)
+                              color=musumecollection.PADORU_COLOUR)
+        embed.set_thumbnail(url=musumecollection.PADORU_ICON)
         embed.add_field(name="^help", value="Available commands")
         embed.add_field(name="^coinflip", value="Flip a coin")
         embed.add_field(name="^source", value="SauceNao search")
@@ -52,9 +59,9 @@ async def on_message(message):
                     embed = discord.Embed(title="Saber Search",
                                           description=f"I'm {similarity}% sure"
                                           " it is this. Umu!",
-                                          color=PADORU_COLOUR)
+                                          color=musumecollection.PADORU_COLOUR)
                     embed.set_image(url=thumbnail)
-                    embed.set_thumbnail(url=PADORU_ICON)
+                    embed.set_thumbnail(url=musumecollection.PADORU_ICON)
                     embed.add_field(name="Title", value=sauce_list["title"])
                     embed.add_field(name="Artist", value=sauce_list["name"])
                     embed.add_field(name="ID", value=sauce_list["id"])
@@ -63,14 +70,14 @@ async def on_message(message):
                 else:
                     embed = discord.Embed(title="Saber Search",
                                           description="Khh-- I can't find it",
-                                          color=PADORU_COLOUR)
-                    embed.set_thumbnail(url=PADORU_ICON)
+                                          color=musumecollection.PADORU_COLOUR)
+                    embed.set_thumbnail(url=musumecollection.PADORU_ICON)
                     await bot.send_message(message.channel, embed=embed)
             else:
                 embed = discord.Embed(title="Saber Search", description="You"
                                       " didn't even upload anything.",
-                                      color=PADORU_COLOUR)
-                embed.set_thumbnail(url=PADORU_ICON)
+                                      color=musumecollection.PADORU_COLOUR)
+                embed.set_thumbnail(url=musumecollection.PADORU_ICON)
                 await bot.send_message(message.channel, embed=embed)
         # At the moment it's doing a catch all for invalid filetypes,
         # Later I need to find a way to find whether they have specicially
@@ -82,8 +89,8 @@ async def on_message(message):
             embed = discord.Embed(title="Saber Search",
                                   description="Guh I don't like that, "
                                   "did you upload an image?",
-                                  color=PADORU_COLOUR)
-            embed.set_thumbnail(url=PADORU_ICON)
+                                  color=musumecollection.PADORU_COLOUR)
+            embed.set_thumbnail(url=musumecollection.PADORU_ICON)
             await bot.send_message(message.channel, embed=embed)
     # Translate
     # Type ^translate <from lang> to <to lang> "<text to translate>"
@@ -106,12 +113,12 @@ async def on_message(message):
         await bot.send_typing(message.channel)
         result = functions.coin_flip()
         embed = discord.Embed(title="Coin Flip", description=result,
-                              color=PADORU_COLOUR)
+                              color=musumecollection.PADORU_COLOUR)
         if result == "Heads":
-            embed.set_image(url=PADORU_HEADS)
+            embed.set_image(url=musumecollection.PADORU_HEADS)
         else:
-            embed.set_image(url=PADORU_TAILS)
-        embed.set_thumbnail(url=PADORU_ICON)
+            embed.set_image(url=musumecollection.PADORU_TAILS)
+        embed.set_thumbnail(url=musumecollection.PADORU_ICON)
         await bot.send_message(message.channel, embed=embed)
 
 
