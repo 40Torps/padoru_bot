@@ -3,6 +3,7 @@ from discord.ext import commands
 import revsearch
 # import dubstosubs
 from config import DISCORD_TOKEN
+from config import DISCORD_WELCOME
 import musumecollection
 # import re
 import functions
@@ -23,7 +24,7 @@ async def on_ready():
 
 @bot.event
 async def on_member_join(member):
-    channel = member.server.get_channel("501707743472779266")
+    channel = member.server.get_channel(DISCORD_WELCOME)
     # await bot.send_message(channel, "Hello"
     embed = discord.Embed(title="Welcome!", description="Come on and slam",
                           color=musumecollection.PADORU_COLOUR)
